@@ -252,9 +252,18 @@ variable "capacity_reservation_specification" {
 variable "cpu_options" {
   description = "The CPU options for the instance"
   type = object({
-    amd_sev_snp      = optional(string)
-    core_count       = optional(number)
-    threads_per_core = optional(number)
+    amd_sev_snp           = optional(string)
+    core_count            = optional(number)
+    nested_virtualization = optional(string)
+    threads_per_core      = optional(number)
+  })
+  default = null
+}
+
+variable "network_performance_options" {
+  description = "The network performance options for the instance"
+  type = object({
+    bandwidth_weighting = optional(string)
   })
   default = null
 }
@@ -565,6 +574,7 @@ variable "update_config" {
   type = object({
     max_unavailable            = optional(number)
     max_unavailable_percentage = optional(number)
+    update_strategy            = optional(string)
   })
   default = {
     max_unavailable_percentage = 33
@@ -575,7 +585,17 @@ variable "update_config" {
 variable "node_repair_config" {
   description = "The node auto repair configuration for the node group"
   type = object({
-    enabled = optional(bool, true)
+    enabled                                 = optional(bool, true)
+    max_parallel_nodes_repaired_count       = optional(number)
+    max_parallel_nodes_repaired_percentage  = optional(number)
+    max_unhealthy_node_threshold_count      = optional(number)
+    max_unhealthy_node_threshold_percentage = optional(number)
+    node_repair_config_overrides = optional(list(object({
+      min_repair_wait_time_mins = number
+      node_monitoring_condition = string
+      node_unhealthy_reason     = string
+      repair_action             = string
+    })))
   })
   default = null
 }

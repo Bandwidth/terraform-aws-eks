@@ -57,6 +57,11 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
   endpoint_public_access                   = true
 
+  # EKS Provisioned Control Plane configuration
+  control_plane_scaling_config = {
+    tier = "standard"
+  }
+
   addons = {
     coredns = {}
     eks-pod-identity-agent = {
@@ -150,6 +155,7 @@ resource "helm_release" "karpenter" {
       clusterName: ${module.eks.cluster_name}
       clusterEndpoint: ${module.eks.cluster_endpoint}
       interruptionQueue: ${module.karpenter.queue_name}
+      enableZonalShift: true
     webhook:
       enabled: false
     EOT
