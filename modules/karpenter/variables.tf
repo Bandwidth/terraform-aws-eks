@@ -253,7 +253,7 @@ variable "cluster_ip_family" {
 }
 
 variable "node_iam_role_arn" {
-  description = "Existing IAM role ARN for the IAM instance profile. Required if `create_iam_role` is set to `false`"
+  description = "Existing IAM role ARN for the IAM instance profile. Required if `create_node_iam_role` is set to `false`"
   type        = string
   default     = null
 }
@@ -304,6 +304,12 @@ variable "node_iam_role_additional_policies" {
   description = "Additional policies to be added to the IAM role"
   type        = map(string)
   default     = {}
+}
+
+variable "node_iam_role_source_account_condition" {
+  description = "Whether to add an `aws:SourceAccount` condition to the node IAM role's trust policy, scoped to the current account"
+  type        = bool
+  default     = false
 }
 
 variable "node_iam_role_tags" {

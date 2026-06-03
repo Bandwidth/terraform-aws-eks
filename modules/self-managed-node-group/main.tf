@@ -33,6 +33,8 @@ locals {
     WINDOWS_FULL_2019_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-${local.ssm_kubernetes_version}/image_id"
     WINDOWS_CORE_2022_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2022-English-Full-EKS_Optimized-${local.ssm_kubernetes_version}/image_id"
     WINDOWS_FULL_2022_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2022-English-Core-EKS_Optimized-${local.ssm_kubernetes_version}/image_id"
+    WINDOWS_CORE_2025_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2025-English-Core-EKS_Optimized-${local.ssm_kubernetes_version}/image_id"
+    WINDOWS_FULL_2025_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2025-English-Full-EKS_Optimized-${local.ssm_kubernetes_version}/image_id"
     AL2023_x86_64_STANDARD     = "/aws/service/eks/optimized-ami/${local.ssm_kubernetes_version}/amazon-linux-2023/x86_64/standard/recommended/image_id"
     AL2023_ARM_64_STANDARD     = "/aws/service/eks/optimized-ami/${local.ssm_kubernetes_version}/amazon-linux-2023/arm64/standard/recommended/image_id"
     AL2023_x86_64_NEURON       = "/aws/service/eks/optimized-ami/${local.ssm_kubernetes_version}/amazon-linux-2023/x86_64/neuron/recommended/image_id"
@@ -42,7 +44,8 @@ locals {
 }
 
 data "aws_ssm_parameter" "ami" {
-  count = var.create ? 1 : 0
+  # only pull the ami if we're creating the resource AND we're not already using a custom ami
+  count = var.create && var.ami_id == "" ? 1 : 0
 
   region = var.region
 
@@ -188,9 +191,10 @@ resource "aws_launch_template" "this" {
     for_each = var.cpu_options != null ? [var.cpu_options] : []
 
     content {
-      amd_sev_snp      = cpu_options.value.amd_sev_snp
-      core_count       = cpu_options.value.core_count
-      threads_per_core = cpu_options.value.threads_per_core
+      amd_sev_snp           = cpu_options.value.amd_sev_snp
+      core_count            = cpu_options.value.core_count
+      nested_virtualization = cpu_options.value.nested_virtualization
+      threads_per_core      = cpu_options.value.threads_per_core
     }
   }
 
@@ -219,7 +223,7 @@ resource "aws_launch_template" "this" {
     arn = var.create_iam_instance_profile ? aws_iam_instance_profile.this[0].arn : var.iam_instance_profile_arn
   }
 
-  image_id                             = coalesce(var.ami_id, nonsensitive(data.aws_ssm_parameter.ami[0].value))
+  image_id                             = var.ami_id == "" ? nonsensitive(data.aws_ssm_parameter.ami[0].value) : var.ami_id
   instance_initiated_shutdown_behavior = var.instance_initiated_shutdown_behavior
 
   dynamic "instance_market_options" {
@@ -437,6 +441,14 @@ resource "aws_launch_template" "this" {
       # Set on EKS managed node group, will fail if set here
       # https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html#launch-template-basics
       # subnet_id       = try(network_interfaces.value.subnet_id, null)
+    }
+  }
+
+  dynamic "network_performance_options" {
+    for_each = var.network_performance_options != null ? [var.network_performance_options] : []
+
+    content {
+      bandwidth_weighting = network_performance_options.value.bandwidth_weighting
     }
   }
 

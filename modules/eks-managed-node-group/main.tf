@@ -147,9 +147,10 @@ resource "aws_launch_template" "this" {
     for_each = var.cpu_options != null ? [var.cpu_options] : []
 
     content {
-      amd_sev_snp      = cpu_options.value.amd_sev_snp
-      core_count       = cpu_options.value.core_count
-      threads_per_core = cpu_options.value.threads_per_core
+      amd_sev_snp           = cpu_options.value.amd_sev_snp
+      core_count            = cpu_options.value.core_count
+      nested_virtualization = cpu_options.value.nested_virtualization
+      threads_per_core      = cpu_options.value.threads_per_core
     }
   }
 
@@ -322,6 +323,14 @@ resource "aws_launch_template" "this" {
     }
   }
 
+  dynamic "network_performance_options" {
+    for_each = var.network_performance_options != null ? [var.network_performance_options] : []
+
+    content {
+      bandwidth_weighting = network_performance_options.value.bandwidth_weighting
+    }
+  }
+
   dynamic "placement" {
     for_each = var.placement != null || local.create_placement_group ? [var.placement] : []
 
@@ -413,6 +422,8 @@ locals {
     WINDOWS_FULL_2019_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-${local.ssm_kubernetes_version}"
     WINDOWS_CORE_2022_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2022-English-Full-EKS_Optimized-${local.ssm_kubernetes_version}"
     WINDOWS_FULL_2022_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2022-English-Core-EKS_Optimized-${local.ssm_kubernetes_version}"
+    WINDOWS_CORE_2025_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2025-English-Core-EKS_Optimized-${local.ssm_kubernetes_version}"
+    WINDOWS_FULL_2025_x86_64   = "/aws/service/ami-windows-latest/Windows_Server-2025-English-Full-EKS_Optimized-${local.ssm_kubernetes_version}"
     AL2023_x86_64_STANDARD     = "/aws/service/eks/optimized-ami/${local.ssm_kubernetes_version}/amazon-linux-2023/x86_64/standard/recommended/release_version"
     AL2023_ARM_64_STANDARD     = "/aws/service/eks/optimized-ami/${local.ssm_kubernetes_version}/amazon-linux-2023/arm64/standard/recommended/release_version"
     AL2023_x86_64_NEURON       = "/aws/service/eks/optimized-ami/${local.ssm_kubernetes_version}/amazon-linux-2023/x86_64/neuron/recommended/release_version"
@@ -510,6 +521,7 @@ resource "aws_eks_node_group" "this" {
     content {
       max_unavailable_percentage = update_config.value.max_unavailable_percentage
       max_unavailable            = update_config.value.max_unavailable
+      update_strategy            = update_config.value.update_strategy
     }
   }
 
@@ -517,7 +529,22 @@ resource "aws_eks_node_group" "this" {
     for_each = var.node_repair_config != null ? [var.node_repair_config] : []
 
     content {
-      enabled = node_repair_config.value.enabled
+      enabled                                 = node_repair_config.value.enabled
+      max_parallel_nodes_repaired_count       = node_repair_config.value.max_parallel_nodes_repaired_count
+      max_parallel_nodes_repaired_percentage  = node_repair_config.value.max_parallel_nodes_repaired_percentage
+      max_unhealthy_node_threshold_count      = node_repair_config.value.max_unhealthy_node_threshold_count
+      max_unhealthy_node_threshold_percentage = node_repair_config.value.max_unhealthy_node_threshold_percentage
+
+      dynamic "node_repair_config_overrides" {
+        for_each = node_repair_config.value.node_repair_config_overrides != null ? node_repair_config.value.node_repair_config_overrides : []
+
+        content {
+          min_repair_wait_time_mins = node_repair_config_overrides.value.min_repair_wait_time_mins
+          node_monitoring_condition = node_repair_config_overrides.value.node_monitoring_condition
+          node_unhealthy_reason     = node_repair_config_overrides.value.node_unhealthy_reason
+          repair_action             = node_repair_config_overrides.value.repair_action
+        }
+      }
     }
   }
 

@@ -2,6 +2,127 @@
 
 All notable changes to this project will be documented in this file.
 
+## [21.23.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.22.0...v21.23.0) (2026-05-29)
+
+### Features
+
+* Add nested_virtualization cpu_option ([#3686](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3686)) ([ddec8b9](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/ddec8b98676927f7a40a50330e4b5a8ce1a96cf6)), closes [#3685](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3685)
+* Add support for launch template `network_performance_options` ([#3714](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3714)) ([9be4cbd](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/9be4cbd7c66a45d3033f2a2e329a25fff3e4dff7))
+
+## [21.22.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.21.0...v21.22.0) (2026-05-25)
+
+### Features
+
+* Remove `is_enabled` deprecation warning from Karpenter `event_rules` output ([#3707](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3707)) ([4bd70c7](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/4bd70c70a15ddb76a5b6bfde7fb0dabfaea706de))
+
+## [21.21.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.20.0...v21.21.0) (2026-05-25)
+
+### Features
+
+* Add support for EKS addon `namespace_config` ([#3716](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3716)) ([8828bd9](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/8828bd9f045933923d6c0e65a98ce58e21c54042))
+
+## [21.20.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.19.1...v21.20.0) (2026-05-06)
+
+### Features
+
+* Add opt-in `aws:SourceAccount` condition to Karpenter node IAM role trust policy ([#3695](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3695)) ([0515ad6](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/0515ad6d5188a80c9c8375710aebc97c1b6bad5f)), closes [#3688](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3688)
+
+## [21.19.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.19.0...v21.19.1) (2026-05-06)
+
+### Bug Fixes
+
+* Update karpenter zonal-shift policy ([#3693](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3693)) ([5ba1ed3](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/5ba1ed33d62cb7f8b634d9b849519d5730731cc8))
+
+## [21.19.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.18.0...v21.19.0) (2026-04-27)
+
+### Features
+
+* Update Karpenter sub-module to support Karpenter `v1.12` ([#3690](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3690)) ([3bc989b](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/3bc989bd75261ff32ff65eadabbef4e1fb7c26ec))
+
+## [21.18.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.17.1...v21.18.0) (2026-04-13)
+
+### Features
+
+* Update Karpenter sub-module to support Karpenter `v1.11` ([#3674](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3674)) ([312ddb6](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/312ddb68f408ef045a03d3673f5dabeeed5b5cf0))
+
+## [21.17.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.17.0...v21.17.1) (2026-04-06)
+
+### Bug Fixes
+
+* Avoid attempting to retrieve the AMI ID from SSM parameter if a custom AMI ID is provided ([#3660](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3660)) ([26ead74](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/26ead74f6a2bf9fe50d30d8f09e9cbfd3a185ba4))
+
+## [21.17.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.16.1...v21.17.0) (2026-04-04)
+
+### Features
+
+* Add support for Windows 2025 AMIs ([#3669](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3669)) ([80db8c2](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/80db8c272f9aaa1bc479707826d8381877edf04f)), closes [#3664](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3664)
+
+## [21.16.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.16.0...v21.16.1) (2026-04-02)
+
+### Bug Fixes
+
+* Revert "feat: Add ECR Public permissions to EKS Auto Mode node IAM role" ([#3668](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3668)) ([f13e8db](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/f13e8db8e5eb38a957c29299d85bdcff2464ff23)), closes [#3665](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3665)
+
+## [21.16.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.15.1...v21.16.0) (2026-04-01)
+
+### Features
+
+* Add ECR Public permissions to EKS Auto Mode node IAM role ([#3665](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3665)) ([c07c26c](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/c07c26c18598182785ec36df2b30d05fa7a016b4))
+
+## [21.15.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.15.0...v21.15.1) (2026-01-20)
+
+### Bug Fixes
+
+* Move EKS workshop banner up the README ([#3633](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3633)) ([8a83380](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/8a833809b9314a57d93b08597679fd4b2ea2af65))
+
+## [21.15.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.14.0...v21.15.0) (2026-01-20)
+
+### Features
+
+* Added link to AWS EKS workshops ([#3631](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3631)) ([c2d3b48](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/c2d3b488ce9c63fabeaaded3f369b26a0902126a))
+
+## [21.14.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.13.0...v21.14.0) (2026-01-13)
+
+### Features
+
+* Add support for EKS managed node group `update_config.update_strategy` ([#3626](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3626)) ([617dba6](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/617dba6267162edcd0bf007e1c5fd23e4b43584f))
+
+## [21.13.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.12.0...v21.13.0) (2026-01-13)
+
+### Features
+
+* Add support for EKS Capabilities ([#3624](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3624)) ([990050b](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/990050b224f92c1470f1fa2014bf5bb3b6b2f021))
+
+## [21.12.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.11.0...v21.12.0) (2026-01-08)
+
+### Features
+
+* Add provider meta user-agent, replacing static tag ([#3614](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3614)) ([391b11e](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/391b11e0411212c362147e8da37bd2436f250e6d))
+
+## [21.11.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.10.1...v21.11.0) (2026-01-05)
+
+### Features
+
+* Update Hybrid Node IAM role permissions ([#3620](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3620)) ([60dcc45](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/60dcc4506399000610e8f2b592f7a68a5131ac33))
+
+## [21.10.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.10.0...v21.10.1) (2025-11-28)
+
+### Bug Fixes
+
+* Update minimum required version of AWS provider for provisioned control plane ([#3603](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3603)) ([dc4de4f](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/dc4de4fec0d1c50669ac957fbedc26cac0ebe940))
+
+## [21.10.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.9.0...v21.10.0) (2025-11-27)
+
+### Features
+
+* Add support for Provisioned Control Plane ([#3597](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3597)) ([d3d6697](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/d3d6697b33dd3ce283626caf4d36fc9ba7a99827))
+
+## [21.9.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.8.0...v21.9.0) (2025-11-16)
+
+### Features
+
+* Add support for node repair configuration arguments ([#3585](https://github.com/terraform-aws-modules/terraform-aws-eks/issues/3585)) ([c0ed29b](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/c0ed29b922d22c5950161ddde9c458b1f60708da))
+
 ## [21.8.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v21.7.0...v21.8.0) (2025-10-27)
 
 ### Features

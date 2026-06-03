@@ -274,6 +274,14 @@ locals {
         detail-type = ["EC2 Instance State-change Notification"]
       }
     }
+    capacity_reservation_interruption = {
+      name        = "CRInterruption"
+      description = "Karpenter interrupt - EC2 capacity reservation instance interruption warning"
+      event_pattern = {
+        source      = ["aws.ec2"]
+        detail-type = ["EC2 Capacity Reservation Instance Interruption Warning"]
+      }
+    }
   }
 }
 
@@ -331,6 +339,16 @@ data "aws_iam_policy_document" "node_assume_role" {
     principals {
       type        = "Service"
       identifiers = [local.ec2_sp_name]
+    }
+
+    dynamic "condition" {
+      for_each = var.node_iam_role_source_account_condition ? [1] : []
+
+      content {
+        test     = "StringEquals"
+        variable = "aws:SourceAccount"
+        values   = [local.account_id]
+      }
     }
   }
 }
